@@ -1053,12 +1053,16 @@
        BITE & BREW WHATSAPP NUMBER
        ========================= */
 
-    const whatsappNumber =
-      "917978080934";
+        const whatsappURL =
+      "https://wa.me/" +
+      whatsappNumber +
+      "?text=" +
+      encodeURIComponent(message);
 
+    window.location.href = whatsappURL;
+  }
 
-    /* IMPORTANT:
-       Encode the ENTIRE message
-    */
+</script>
 
-    const what
+</body>
+</html>

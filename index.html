@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Bite & Brew - Order Online</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f3ed;
+      color: #222;
+      padding-bottom: 90px;
+    }
+
+    header {
+      background: #171717;
+      color: white;
+      text-align: center;
+      padding: 24px 15px;
+    }
+
+    header h1 {
+      font-size: 30px;
+      margin-bottom: 6px;
+    }
+
+    header p {
+      color: #ddd;
+      font-size: 14px;
+    }
+
+    .container {
+      width: 94%;
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .category {
+      margin-top: 24px;
+    }
+
+    .category h2 {
+      font-size: 20px;
+      margin-bottom: 12px;
+      border-left: 5px solid #d89b4a;
+      padding-left: 10px;
+    }
+
+    .item {
+      background: white;
+      border-radius: 13px;
+      padding: 14px;
+      margin-bottom: 10px;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .item-info {
+      flex: 1;
+    }
+
+    .item-name {
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .price {
+      margin-top: 5px;
+      font-weight: bold;
+      color: #b56b20;
+    }
+
+    .add-btn {
+      background: #171717;
+      color: white;
+      border: none;
+      padding: 9px 15px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .add-btn:active {
+      transform: scale(0.95);
+    }
+
+    .cart {
+      background: white;
+      margin-top: 28px;
+      padding: 18px;
+      border-radius: 14px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .cart h2 {
+      margin-bottom: 12px;
+    }
+
+    .empty {
+      color: #777;
+      text-align: center;
+      padding: 15px 0;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+      gap: 10px;
+    }
+
+    .cart-item-name {
+      flex: 1;
+      font-weight: bold;
+    }
+
+    .cart-item-price {
+      font-size: 13px;
+      color: #777;
+      margin-top: 3px;
+    }
+
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .qty-btn {
+      width: 30px;
+      height: 30px;
+      border: none;
+      border-radius: 7px;
+      background: #222;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .qty-number {
+      min-width: 20px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .total {
+      text-align: right;
+      font-size: 21px;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    .form {
+      background: white;
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 14px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .form h2 {
+      margin-bottom: 15px;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 13px;
+      margin-bottom: 12px;
+
+      border: 1px solid #ccc;
+      border-radius: 8px;
+
+      font-size: 15px;
+      font-family: inherit;
+      outline: none;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: #222;
+    }
+
+    textarea {
+      min-height: 95px;
+      resize: vertical;
+    }
+
+    .order-btn {
+      width: 100%;
+      padding: 15px;
+
+      background: #25D366;
+      color: white;
+
+      border: none;
+      border-radius: 10px;
+
+      font-size: 17px;
+      font-weight: bold;
+
+      cursor: pointer;
+    }
+
+    .order-btn:active {
+      transform: scale(0.98);
+    }
+
+    .note {
+      text-align: center;
+      color: #777;
+      font-size: 13px;
+      margin-top: 12px;
+    }
+
+    .bottom-cart {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+
+      background: #171717;
+      color: white;
+
+      padding: 12px 16px;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      z-index: 100;
+    }
+
+    .bottom-cart button {
+      background: #d89b4a;
+      color: #111;
+
+      border: none;
+      padding: 10px 16px;
+
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    .section-note {
+      font-size: 12px;
+      color: #777;
+      margin-top: -5px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>☕ Bite & Brew</h1>
+  <p>Order Online • Home Delivery</p>
+</header>
+
+
+<div class="container">
+
+  <!-- HOT BEVERAGES -->
+  <section class="category">
+
+    <h2>☕ Hot Beverages</h2>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Masala Tea</div>
+        <div class="price">₹10</div>
+      </div>
+      <button class="add-btn" onclick="addItem('Masala Tea', 10)">
+        ADD
+      </button>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Black Coffee</div>
+        <div class="price">₹20</div>
+      </div>
+      <button class="add-btn" onclick="addItem('Black Coffee', 20)">
+        ADD
+      </button>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Hot Coffee</div>
+        <div class="price">₹20</div>
+      </div>
+      <button class="add-btn" onclick="addItem('Hot Coffee', 20)">
+        ADD
+      </button>
+    </div>
+
+  </section>
+
+
+  <!-- COLD BEVERAGES -->
+  <section class="category">
+
+    <h2>🥤 Cold Beverages & Shakes</h2>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Cold Coffee (with Ice Cream)</div>
+        <div class="price">₹70</div>
+      </div>
+      <button class="add-btn" onclick="addItem('Cold Coffee (with Ice Cream)', 70)">
+        ADD
+      </button>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Oreo Shake</div>
+        <div class="price">₹79</div>
+      </div>
+      <button class="add-btn" onclick="addItem('Oreo Shake', 79)">
+        ADD
+      </button>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Bourbon Shake</div>
+        <div class="price">₹89</div>
+      </div>
+      <button class="add-btn" onclick="addItem('Bourbon Shake', 89)">
+        ADD
+      </button>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">KitKat Shake</div>
+        <div class="price">₹99</div>
+      </div>
+      <button class="add-btn" onclick="addItem('KitKat Shake', 99)">
+        ADD
+      </button>
+    </div>
+
+  </section>
+
+
+  <!-- REFRESHMENTS -->
+  <section class="category">
+
+    <h2>🍹 Refreshments & Mojitos</h2>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Nimboo Pani</div>
+        <div class="price">₹20</div>
+      </div>
+      <button class="add-btn" onclick="addItem('Nimboo Pani', 20)">
+        ADD
+      </button>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Masala Cold Drink</div>
+        <div class="price">₹30</div>
+      </div>
+      <button class="add-btn" onclick="addItem('Masala Cold Drink', 30)">
+        ADD
+      </button>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Mint Mojito</div>
+        <div class="price">₹79</div>
+      </div>
+      <button class="add-btn" onclick="addItem('Mint Mojito', 79)">
+        ADD
+      </button>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Blue Lagoon</div>
+        <div class="price">₹79</div>
+      </div>
+      <button class="add-btn" onclick="addItem('Blue Lagoon', 79)">
+        ADD
+      </button>
+    </div>
+
+  </section>
+
+
+  <!-- FRIES -->
+  <section class="category">
+
+    <h2>🍟 Crunchy Bites</h2>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">French Fries</div>
+        <div class="price">₹69</div>
+      </div>
+      <button class="add-btn" onclick="addItem('French Fries', 69)">
+        ADD
+      </button>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Peri Peri French Fries</div>
+        <div class="price">₹79</div>
+      </div>
+      <button class="add-btn" onclick="addItem('Peri Peri French Fries', 79)">
+        ADD
+      </button>
+    </div>
+
+  </section>
+
+
+  <!-- BURGERS -->
+  <section class="category">
+
+    <h2>🍔 Burgers</h2>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Veg Burger</div>
+        <div class="price">₹69</div>
+      </div>
+      <button class="add-btn" onclick="addItem('Veg Burger', 69)">
+        ADD
+      </button>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Paneer Burger</div>
+        <div class="price">₹89</div>
+      </div>
+      <button class="add-btn" onclick="addItem('Paneer Burger', 89)">
+        ADD
+      </button>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Chicken Burger</div>
+        <div class="price">₹99</div>
+      </div>
+      <button class="add-btn" onclick="addItem('Chicken Burger', 99)">
+        ADD
+      </button>
+    </div>
+
+  </section>
+
+
+  <!-- SANDWICH -->
+  <section class="category">
+
+    <h2>🥪 Sandwich</h2>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Veg Sandwich</div>
+        <div class="price">₹69</div>
+      </div>
+      <button class="add-btn" onclick="addItem('Veg Sandwich', 69)">
+        ADD
+      </button>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Chicken Sandwich</div>
+        <div class="price">₹99</div>
+      </div>
+      <button class="add-btn" onclick="addItem('Chicken Sandwich', 99)">
+        ADD
+      </button>
+    </div>
+
+  </section>
+
+
+  <!-- SNACKS -->
+  <section class="category">
+
+    <h2>🍗 Snacks</h2>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Veg Nuggets - 08 Pc</div>
+        <div class="price">₹90</div>
+      </div>
+      <button class="add-btn" onclick="addItem('Veg Nuggets - 08 Pc', 90)">
+        ADD
+      </button>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Veg Nuggets - 16 Pc</div>
+        <div class="price">₹170</div>
+      </div>
+      <button class="add-btn" onclick="addItem('Veg Nuggets - 16 Pc', 170)">
+        ADD
+      </button>
+    </div>
+
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Potato Cheese Shots - 08 Pc</div>
+        <div class="price">₹80</div>
+      </div>
+      <button class="add-btn" onclick="addItem('Potato Cheese Shots - 08 Pc', 80)">
+        ADD
+      </button>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Potato Cheese Shots - 16 Pc</div>
+        <div class="price">₹150</div>
+      </div>
+      <button class="add-btn" onclick="addItem('Potato Cheese Shots - 16 Pc', 150)">
+        ADD
+      </button>
+    </div>
+
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Chilly Garlic Potato Shots - 12 Pc</div>
+        <div class="price">₹89</div>
+      </div>
+      <button class="add-btn" onclick="addItem('Chilly Garlic Potato Shots - 12 Pc', 89)">
+        ADD
+      </button>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Chilly Garlic Potato Shots - 24 Pc</div>
+        <div class="price">₹199</div>
+      </div>
+      <button class="add-btn" onclick="addItem('Chilly Garlic Potato Shots - 24 Pc', 199)">
+        ADD
+      </button>
+    </div>
+
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Chicken Nuggets - 06 Pc</div>
+        <div class="price">₹99</div>
+      </div>
+      <button class="add-btn" onclick="addItem('Chicken Nuggets - 06 Pc', 99)">
+        ADD
+      </button>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Chicken Nuggets - 12 Pc</div>
+        <div class="price">₹199</div>
+      </div>
+      <button class="add-btn" onclick="addItem('Chicken Nuggets - 12 Pc', 199)">
+        ADD
+      </button>
+    </div>
+
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Chicken Wings - 06 Pc</div>
+        <div class="price">₹150</div>
+      </div>
+      <button class="add-btn" onclick="addItem('Chicken Wings - 06 Pc', 150)">
+        ADD
+      </button>
+    </div>
+
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Chicken Popcorn - 08 Pc</div>
+        <div class="price">₹80</div>
+      </div>
+      <button class="add-btn" onclick="addItem('Chicken Popcorn - 08 Pc', 80)">
+        ADD
+      </button>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Chicken Popcorn - 16 Pc</div>
+        <div class="price">₹160</div>
+      </div>
+      <button class="add-btn" onclick="addItem('Chicken Popcorn - 16 Pc', 160)">
+        ADD
+      </button>
+    </div>
+
+  </section>
+
+
+  <!-- DESSERTS -->
+  <section class="category">
+
+    <h2>🍰 Desserts</h2>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Brownie with Ice Cream</div>
+        <div class="price">₹99</div>
+      </div>
+      <button class="add-btn" onclick="addItem('Brownie with Ice Cream', 99)">
+        ADD
+      </button>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Choco Lava Cake</div>
+        <div class="price">₹99</div>
+      </div>
+      <button class="add-btn" onclick="addItem('Choco Lava Cake', 99)">
+        ADD
+      </button>
+    </div>
+
+  </section>
+
+
+  <!-- CART -->
+  <section class="cart" id="cart">
+
+    <h2>🛒 Your Order</h2>
+
+    <div id="cartItems">
+      <div class="empty">
+        Your cart is empty
+      </div>
+    </div>
+
+    <div class="total">
+      Total: ₹<span id="total">0</span>
+    </div>
+
+  </section>
+
+
+  <!-- CUSTOMER DETAILS -->
+  <section class="form">
+
+    <h2>📍 Delivery Details</h2>
+
+    <input
+      type="text"
+      id="customerName"
+      placeholder="Your Name"
+      autocomplete="name"
+    >
+
+    <input
+      type="tel"
+      id="customerPhone"
+      placeholder="Mobile Number"
+      maxlength="10"
+      inputmode="numeric"
+      autocomplete="tel"
+    >
+
+    <textarea
+      id="customerAddress"
+      placeholder="Complete Delivery Address"
+      autocomplete="street-address"
+    ></textarea>
+
+    <button
+      class="order-btn"
+      onclick="placeOrder()"
+    >
+      Order on WhatsApp
+    </button>
+
+    <div class="note">
+      Your order will open in WhatsApp. Tap Send to confirm.
+    </div>
+
+  </section>
+
+</div>
+
+
+<!-- BOTTOM CART -->
+<div class="bottom-cart">
+
+  <div>
+    🛒
+    <span id="bottomCount">0</span>
+    items |
+    ₹<span id="bottomTotal">0</span>
+  </div>
+
+  <button onclick="scrollToCart()">
+    View Cart
+  </button>
+
+</div>
+
+
+<script>
+
+  /* =========================
+     CART
+  ========================= */
+
+  let cart = [];
+
+
+  /* =========================
+     ADD ITEM
+  ========================= */
+
+  function addItem(name, price) {
+
+    const existingItem = cart.find(
+      item => item.name === name
+    );
+
+    if (existingItem) {
+
+      existingItem.qty += 1;
+
+    } else {
+
+      cart.push({
+        name: name,
+        price: price,
+        qty: 1
+      });
+
+    }
+
+    renderCart();
+  }
+
+
+  /* =========================
+     CHANGE QUANTITY
+  ========================= */
+
+  function changeQty(index, amount) {
+
+    if (!cart[index]) {
+      return;
+    }
+
+    cart[index].qty += amount;
+
+    if (cart[index].qty <= 0) {
+
+      cart.splice(index, 1);
+
+    }
+
+    renderCart();
+  }
+
+
+  /* =========================
+     RENDER CART
+  ========================= */
+
+  function renderCart() {
+
+    const cartItems =
+      document.getElementById("cartItems");
+
+    if (cart.length === 0) {
+
+      cartItems.innerHTML =
+        '<div class="empty">Your cart is empty</div>';
+
+    } else {
+
+      cartItems.innerHTML = cart.map(
+        (item, index) => {
+
+          const itemTotal =
+            item.price * item.qty;
+
+          return `
+            <div class="cart-item">
+
+              <div class="cart-item-name">
+
+                ${item.name}
+
+                <div class="cart-item-price">
+                  ₹${item.price} × ${item.qty}
+                  = ₹${itemTotal}
+                </div>
+
+              </div>
+
+              <div class="qty-controls">
+
+                <button
+                  class="qty-btn"
+                  onclick="changeQty(${index}, -1)"
+                >
+                  −
+                </button>
+
+                <span class="qty-number">
+                  ${item.qty}
+                </span>
+
+                <button
+                  class="qty-btn"
+                  onclick="changeQty(${index}, 1)"
+                >
+                  +
+                </button>
+
+              </div>
+
+            </div>
+          `;
+
+        }
+      ).join("");
+
+    }
+
+    updateTotal();
+  }
+
+
+  /* =========================
+     TOTAL
+  ========================= */
+
+  function updateTotal() {
+
+    let total = 0;
+    let count = 0;
+
+    cart.forEach(item => {
+
+      total += item.price * item.qty;
+
+      count += item.qty;
+
+    });
+
+    document.getElementById("total").textContent =
+      total;
+
+    document.getElementById("bottomTotal").textContent =
+      total;
+
+    document.getElementById("bottomCount").textContent =
+      count;
+  }
+
+
+  /* =========================
+     SCROLL TO CART
+  ========================= */
+
+  function scrollToCart() {
+
+    document
+      .getElementById("cart")
+      .scrollIntoView({
+        behavior: "smooth"
+      });
+
+  }
+
+
+  /* =========================
+     WHATSAPP ORDER
+  ========================= */
+
+  function placeOrder() {
+
+    /* CHECK CART */
+
+    if (cart.length === 0) {
+
+      alert(
+        "Please add at least one item to your cart."
+      );
+
+      return;
+    }
+
+
+    /* GET CUSTOMER DETAILS */
+
+    const name =
+      document
+        .getElementById("customerName")
+        .value
+        .trim();
+
+    const phone =
+      document
+        .getElementById("customerPhone")
+        .value
+        .trim();
+
+    const address =
+      document
+        .getElementById("customerAddress")
+        .value
+        .trim();
+
+
+    /* CHECK DETAILS */
+
+    if (!name) {
+
+      alert("Please enter your name.");
+
+      return;
+    }
+
+
+    if (!phone) {
+
+      alert("Please enter your mobile number.");
+
+      return;
+    }
+
+
+    if (!/^[0-9]{10}$/.test(phone)) {
+
+      alert(
+        "Please enter a valid 10-digit mobile number."
+      );
+
+      return;
+    }
+
+
+    if (!address) {
+
+      alert(
+        "Please enter your delivery address."
+      );
+
+      return;
+    }
+
+
+    /* CALCULATE TOTAL */
+
+    let total = 0;
+
+
+    /* BUILD MESSAGE */
+
+    let message =
+      "🍔 *BITE & BREW - NEW ORDER*\n";
+
+    message +=
+      "━━━━━━━━━━━━━━━━━━\n\n";
+
+    message +=
+      "👤 *Name:* " +
+      name +
+      "\n";
+
+    message +=
+      "📱 *Mobile:* " +
+      phone +
+      "\n";
+
+    message +=
+      "📍 *Address:* " +
+      address +
+      "\n\n";
+
+    message +=
+      "🛒 *ORDER DETAILS*\n";
+
+
+    /* ADD ITEMS */
+
+    cart.forEach(item => {
+
+      const itemTotal =
+        item.price * item.qty;
+
+      total += itemTotal;
+
+      message +=
+        "• " +
+        item.name +
+        " × " +
+        item.qty +
+        " = ₹" +
+        itemTotal +
+        "\n";
+
+    });
+
+
+    /* TOTAL */
+
+    message +=
+      "\n━━━━━━━━━━━━━━━━━━\n";
+
+    message +=
+      "💰 *TOTAL: ₹" +
+      total +
+      "*\n\n";
+
+    message +=
+      "Please confirm my order. 🙏";
+
+
+    /* =========================
+       BITE & BREW WHATSAPP NUMBER
+       ========================= */
+
+    const whatsappNumber =
+      "917978080934";
+
+
+    /* IMPORTANT:
+       Encode the ENTIRE message
+    */
+
+    const what
